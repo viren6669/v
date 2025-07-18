@@ -1,8 +1,8 @@
 # File: services/OpenVoice/Dockerfile
-# Usa l'immagine di base di Ubuntu
+# Use Ubuntu base image
 FROM ubuntu:22.04
 
-# Aggiorna il sistema e installa le dipendenze necessarie
+# Update the system and install necessary dependencies
 RUN apt-get update && DEBIEN_FRONTEND=noninteractive apt-get install -y \
     sudo \
     python3.9 \
@@ -11,19 +11,19 @@ RUN apt-get update && DEBIEN_FRONTEND=noninteractive apt-get install -y \
     ffmpeg \
     git
 
-# Aggiorna pip
+# Upgrade pip
 RUN pip install --upgrade pip
 
-# Imposta il working directory nel container
+# Set the working directory in the container
 WORKDIR /app
 
-# Installa openai-whisper
+# Install openai-whisper
 RUN git clone https://github.com/myshell-ai/OpenVoice openvoice
 
 # Install FastAPI and Uvicorn, and other dependencies
 RUN pip install uvicorn fastapi python-multipart langid faster-whisper whisper-timestamped unidecode eng-to-ipa pypinyin cn2an
 
-# Imposta il working directory nel container
+# Set the working directory in the container
 WORKDIR /app/openvoice
 
 RUN pip install -e .
