@@ -41,10 +41,7 @@ async def synthesize_speech(
     prompt: str = Form(...),
     style: str = Form(...),
     audio_file: UploadFile = File(...),
-    agree: bool = Form(...)
 ):
-    if not agree:
-        raise HTTPException(status_code=400, detail="Please accept the Terms & Condition!")
 
     # Save the uploaded audio file temporarily
     temp_audio_path = os.path.join(output_dir, audio_file.filename)
