@@ -32,6 +32,10 @@ zh_source_se = torch.load(f'{zh_ckpt_base}/zh_default_se.pth').to(device)
 
 supported_languages = ['zh', 'en']
 
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the OpenVoice API! Server is up and running!"}
+
 @app.post("/synthesize/")
 async def synthesize_speech(
     prompt: str = Form(...),

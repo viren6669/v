@@ -1,6 +1,6 @@
 # File: services/OpenVoice/Dockerfile
 # Use Ubuntu base image
-FROM ubuntu:22.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 # Update the system and install necessary dependencies
 RUN apt-get update && DEBIEN_FRONTEND=noninteractive apt-get install -y \
@@ -18,7 +18,7 @@ RUN pip install --upgrade pip
 WORKDIR /app
 
 # Install openai-whisper
-RUN git clone https://github.com/myshell-ai/OpenVoice openvoice
+RUN git clone https://github.com/namanthapliyal/OpenVoice.git openvoice
 
 # Install FastAPI and Uvicorn, and other dependencies
 RUN pip install uvicorn fastapi python-multipart langid faster-whisper whisper-timestamped unidecode eng-to-ipa pypinyin cn2an
