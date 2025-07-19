@@ -79,6 +79,6 @@ This section provides the unofficial installation guides by open-source contribu
   - [Guide](https://github.com/Alienpups/OpenVoice/blob/main/docs/USAGE_WINDOWS.md) by [@Alienpups](https://github.com/Alienpups)
   - You are welcome to contribute if you have a better installation guide. We will list you here.
 - Docker
-  - [Guide] (https://github.com/namanthapliyal/OpenVoice/docs/docker_usage.md) by [@namanthapliyal](https://github.com/namanthapliyal/)
+  - [Guide](https://github.com/namanthapliyal/OpenVoice/blob/main/docs/docker_usage.md) by [@namanthapliyal](https://github.com/namanthapliyal/)
   - [Guide](https://github.com/StevenJSCF/OpenVoice/blob/update-docs/docs/DF_USAGE.md) by [@StevenJSCF](https://github.com/StevenJSCF)
   - You are welcome to contribute if you have a better installation guide. We will list you here.
