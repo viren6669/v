@@ -72,3 +72,7 @@ The API will return the synthesized audio as a .wav file.
 
 Output Directory
 Synthesized audio files and temporary processing files will be stored in the outputs/ directory within the container. For local debugging, you might want to mount a volume to persist these outputs on your host machine.
+
+### 4. Access Swagger Doc
+
+You can access the Swagger UI documentation by navigating to http://localhost:7860/docs in your web browser. This provides an interactive API reference and allows you to test the API endpoints directly through the UI.
