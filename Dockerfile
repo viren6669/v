@@ -1,44 +1,39 @@
-# File: services/OpenVoice/Dockerfile
-# Use Ubuntu base image
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
-# Update the system and install necessary dependencies
-RUN apt-get update && DEBIEN_FRONTEND=noninteractive apt-get install -y \
-    sudo \
-    python3.9 \
-    python3-distutils \
+# Install Python 3.10 and pip, as well as other dependencies
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    python3.10 \
+    python3.10-distutils \
     python3-pip \
+    sudo \
     ffmpeg \
-    git
+    git \
+    aria2 \
+    unzip && \
+    rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip
-RUN pip install --upgrade pip
+# Optional: ensure python3 points to python3.10
+RUN ln -sf /usr/bin/python3.10 /usr/bin/python3
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Install openai-whisper
+# Clone OpenVoice (or use COPY for local code)
 RUN git clone https://github.com/namanthapliyal/OpenVoice.git openvoice
 
-# Install FastAPI and Uvicorn, and other dependencies
-RUN pip install uvicorn fastapi python-multipart langid faster-whisper whisper-timestamped unidecode eng-to-ipa pypinyin cn2an
-
-# Set the working directory in the container
 WORKDIR /app/openvoice
 
-RUN pip install -e .
-RUN pip install soundfile librosa inflect jieba silero
+# Install Python dependencies
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip install --no-cache-dir -r requirements.txt && \
+    python3 -m pip install --no-cache-dir -e .
 
-RUN apt -y install -qq aria2 unzip
-RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/camenduru/OpenVoice/resolve/main/checkpoints_1226.zip -d /app/openvoice -o checkpoints_1226.zip
-RUN unzip /app/openvoice/checkpoints_1226.zip 
-RUN mv /app/openvoice/checkpoints /app/openvoice/openvoice/checkpoints 
-RUN mv /app/openvoice/resources /app/openvoice/openvoice/resources 
+# Download and place checkpoints/resources
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/camenduru/OpenVoice/resolve/main/checkpoints_1226.zip -d /app/openvoice -o checkpoints_1226.zip && \
+    unzip /app/openvoice/checkpoints_1226.zip && \
+    rm checkpoints_1226.zip
 
 EXPOSE 7860
 
-# Set the working directory to the openvoice directory where fastapi_app.py will reside
-WORKDIR /app/openvoice/openvoice
 
-# Command to run the FastAPI application with Uvicorn
 CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "7860"]
